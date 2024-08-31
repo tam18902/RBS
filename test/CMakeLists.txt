@@ -15,4 +15,6 @@ set(CMAKE_INSTALL_LIBDIR ${CMAKE_CURRENT_SOURCE_DIR}/../lib/bin)
 
 target_include_directories(test PRIVATE ${CMAKE_INSTALL_INCLUDEDIR})
 target_link_directories(test PRIVATE ${CMAKE_INSTALL_LIBDIR})
-target_link_libraries(test PRIVATE Logger)
+
+target_link_libraries(test PUBLIC Logger Database)
+# target_link_libraries(test PUBLIC Database)

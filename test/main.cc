@@ -1,7 +1,19 @@
 #include "logger.h"
+#include "database.h"
 
-void testNestFunction(int a, float b);
+void testLogger();
+void testDatabase();
 int main() {
+    testDatabase();
+    return 0;
+}
+
+void testNestFunction(int a, float b) {
+    LOG << Level::INFO << "Info message: " << a << ", " << b << std::endl;
+    LOG << Level::WARNING << "This message is logged to a file." << std::endl;
+}
+
+void testLogger() {
     Logger* clog = Logger::getInstance();
 
     int a = 8;
@@ -25,10 +37,22 @@ int main() {
 
     testNestFunction(a, b);
 
-    return 0;
 }
 
-void testNestFunction(int a, float b) {
-    LOG << Level::INFO << "Info message: " << a << ", " << b << std::endl;
-    LOG << Level::WARNING << "This message is logged to a file." << std::endl;
+void testDatabase() {
+    // Create a new instance of the Database
+    Database* db = Database::getInstance("database.txt");
+
+    // Test size and isEmpty
+    std::cout << "Testing size and isEmpty:" << std::endl;
+    std::cout << "Size: " << db->size() << std::endl;
+    std::cout << "Is Empty: " << (db->isEmpty() ? "Yes" : "No") << std::endl;
+    
+    // Test the get function
+    std::cout << "Testing get:" << std::endl;
+    std::string value = db->get("name");
+    std::cout << "Value for 'name': " << value << std::endl;
+    
+    std::cout << "Testing printOut:" << std::endl;
+    std::cout << db->toString();
 }
