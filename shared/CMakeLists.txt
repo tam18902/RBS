@@ -13,3 +13,4 @@ include(GNUInstallDirs)
 
 add_subdirectory(socket)
 add_subdirectory(logger)
+add_subdirectory(database)

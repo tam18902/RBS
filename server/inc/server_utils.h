@@ -9,6 +9,6 @@
 #include "logger.h"
 #include "socket.h"
 
-extern Logger* clog;
+Logger* server_log = Logger::getInstance();
 
 #endif /* _SERVER_UTILS */

@@ -1,22 +1,22 @@
 #include "server.h"
 
 Server::Server(int port) {
-    clog->info(Logger::formater("Initialize server with port: %d", port));
+    server_log->info(Logger::formater("Initialize server with port: %d", port));
     if (!server_socket.create() || !server_socket.bind(port) || !server_socket.listen(5)) {
-        clog->error("Failed to initialize server.");
+        server_log->error("Failed to initialize server.");
         std::cerr << "Failed to initialize server." << std::endl;
         exit(EXIT_FAILURE);
     }
 }
 
 Server::~Server() {
-    clog->info("Destroy Server");
+    server_log->info("Destroy Server");
     clients.clear();
     server_socket.close();
 }
 
 void Server::run() {
-    clog->info("Server is running and listening ...");
+    server_log->info("Server is running and listening ...");
     std::cout << "Server is running and listening ..." << std::endl;
     std::thread(&Server::handleServer, this).detach();
     while (true) {
@@ -57,7 +57,7 @@ void Server::handleClient(std::shared_ptr<Socket> client_socket) {
         if (bytes_received > 0) {
             std::cout << "Received: " << message << std::endl;
             if (message == "quit" || message == "q") {
-                clog->info("Client exit command");
+                server_log->info("Client exit command");
                 break;
             }
             // // Broadcast message to all clients
@@ -72,7 +72,7 @@ void Server::handleClient(std::shared_ptr<Socket> client_socket) {
     }
 
     // Remove client and close connection
-    clog->info("Close connection.");
+    server_log->info("Close connection.");
     clients.erase(
         std::remove_if(
             clients.begin(), 

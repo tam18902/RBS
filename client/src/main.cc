@@ -1,9 +1,7 @@
 #include "client.h"
 
-extern Logger* clog = Logger::getInstance();
-
 int main(int argc, char* argv[]) {
-    clog->setOutstream("client.log");
+    cli_log->setOutstream("client.log");
     const char* server_host = "127.0.0.1"; // Replace with the server's IP address or hostname
     int server_port = 8080; // Replace with the server's port number
 

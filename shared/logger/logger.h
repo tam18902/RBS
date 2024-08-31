@@ -1,5 +1,5 @@
-#ifndef _CHAT_LOGGER
-#define _CHAT_LOGGER 1
+#ifndef _RBS_LOGGER
+#define _RBS_LOGGER 1
 
 #include <cstdarg>
 #include <chrono>
@@ -87,4 +87,4 @@ private:
 
 #define LOG LogStream(*Logger::getInstance())
 
-#endif /* _CHAT_LOGGER */
+#endif /* _RBS_LOGGER */

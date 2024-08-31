@@ -26,9 +26,8 @@ std::string Logger::currentTime() const {
     return oss.str();
 }
 
-Logger::Logger(_constructor_tag):outstream(&std::cerr),logLevel(Level::INFO){
-
-};
+Logger::Logger(_constructor_tag)
+    :outstream(&std::cerr), logLevel(Level::INFO) { }
 
 Logger::~Logger() {
     if (instance->fileStream->is_open()) {
@@ -72,6 +71,10 @@ void Logger::setLogLevel(Level level) {
 }
 
 void Logger::logMessage(Level level, const std::string& message, const std::source_location& location) {
+    if (instance == nullptr) {
+        getInstance();
+    }
+    
     if (level < logLevel)
         return;
     

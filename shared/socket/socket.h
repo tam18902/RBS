@@ -1,5 +1,5 @@
-#ifndef _CHAT_SOCKET
-#define _CHAT_SOCKET 1
+#ifndef _RBS_SOCKET
+#define _RBS_SOCKET 1
 #include <cstring>              //memset, memcpy
 #include <unistd.h>             //close() function
 #include <sys/socket.h>
@@ -41,4 +41,4 @@ public:
     void close();
 };
 
-#endif /* socket.h */
+#endif /* _RBS_SOCKET */
