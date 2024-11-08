@@ -17,7 +17,7 @@ Client::~Client() {
 
 void Client::run() {
     cli_log->info("Client Start.");
-    std::thread(&Client::receiveMessages, this).detach();
+    // std::thread receiveThread = std::thread(&Client::receiveMessages, this);
 
     std::string message;
     while (true) {
@@ -33,7 +33,20 @@ void Client::run() {
             // std::cerr << "Failed to send message." << std::endl;
             break;
         }
-
+        int bytes_received = client_socket.receive(message);
+        if (!message.empty()) {
+            cli_log->info("Server" + message);
+            std::cout << "Server: " << message << std::endl;
+            std::cout << "> ";
+        } else if (bytes_received == 0 && (errno == EWOULDBLOCK || errno == EAGAIN)) {
+            
+            LOG << Level::INFO << "Receive time out " << std::endl;
+            continue;
+        } else {
+            cli_log->error("Connection closed or error occurred.");
+            std::cerr << "Connection closed or error occurred." << std::endl;
+            break;
+        }
         if (message == "quit" || message == "q")
         {
             cli_log->info("Quit message.");
@@ -42,6 +55,10 @@ void Client::run() {
         }
     }
     client_socket.close();
+    // if (receiveThread.joinable())
+    // {
+    //     receiveThread.join();
+    // }
 }
 
 void Client::receiveMessages() {
@@ -52,6 +69,10 @@ void Client::receiveMessages() {
             cli_log->info("Server" + message);
             std::cout << "Server: " << message << std::endl;
             std::cout << "> ";
+        } else if (bytes_received == 0 && (errno == EWOULDBLOCK || errno == EAGAIN)) {
+            
+            LOG << Level::INFO << "Receive time out " << std::endl;
+            continue;
         } else {
             cli_log->error("Connection closed or error occurred.");
             std::cerr << "Connection closed or error occurred." << std::endl;

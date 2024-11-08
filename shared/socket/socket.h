@@ -19,6 +19,8 @@ public:
     virtual ~Socket(){
         close();
     }
+    
+    int getFd() const;
 
     bool create();
 

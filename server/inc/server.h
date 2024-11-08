@@ -6,8 +6,13 @@
 class Server {
 private:
     Socket server_socket;
-    std::vector<std::shared_ptr<Socket>> clients; // Use shared_ptr to manage dynamic memory
-
+    std::atomic<bool> running{true};                   // Flag to indicate if the server is running
+    std::thread server_handle_thread;                  // Server thread
+    std::vector<std::thread> clients_threads;           // Vector of client threads
+    std::vector<std::shared_ptr<Socket>> clients;      // List of clients
+    std::condition_variable exit_condition;            // Condition variable for notifying threads to exit
+    std::mutex mtx;                                    // Mutex for condition variable
+    void stop();
 public:
     Server(int port);
 

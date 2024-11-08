@@ -1,5 +1,7 @@
 #include "client.h"
 
+Logger* cli_log = Logger::getInstance();
+
 int main(int argc, char* argv[]) {
     cli_log->setOutstream("client.log");
     const char* server_host = "127.0.0.1"; // Replace with the server's IP address or hostname

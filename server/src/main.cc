@@ -1,5 +1,6 @@
 #include "server.h"
 
+Logger* server_log = Logger::getInstance();
 int main(int argc, char* argv[]) {
     server_log->setOutstream("server.log");
     Server server(8080);

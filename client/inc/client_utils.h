@@ -6,6 +6,6 @@
 #include "logger.h"
 #include "socket.h"
 
-Logger* cli_log = Logger::getInstance();
+extern Logger* cli_log;
 
 #endif /* _CLIENT_UTILS */

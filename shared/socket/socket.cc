@@ -52,9 +52,19 @@ bool Socket::accept(Socket &new_socket) const {
 bool Socket::send(const std::string& message) const {
     return ::write(sockfd, message.c_str(), message.length()) != -1;
 }
-
+#include<iostream>
 int Socket::receive(std::string& message) const {
     message.clear();
+    // Set the timeout
+    struct timeval timeout;
+    timeout.tv_sec = 5;
+    timeout.tv_usec = 0;
+
+    // Set the socket receive timeout option
+    if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout)) < 0) {
+        std::cerr << "Error setting socket timeout: " << strerror(errno) << std::endl;
+        return -1;
+    }
     ssize_t total_byte{0};
     char buffer[BUFFER_SIZE + 1];
     bool exit_flag{false};
@@ -80,4 +90,8 @@ void Socket::close() {
         ::close(sockfd);
         sockfd = -1;
     }
+}
+
+int Socket::getFd() const {
+    return sockfd;  // Return the socket's file descriptor
 }
